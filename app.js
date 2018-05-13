@@ -3,14 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var slackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var app = express();
+var slackController = require('./controllers/slackController');
 
-var slackEvents = slackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,21 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// make the event handler route
-app.use('/slack/events', [slackEvents.expressMiddleware(), indexRouter]);
-
-// attach listener to message event
-slackEvents.on('message', (message)=> {
-
-  if(message.text.indexOf('go') != -1){ // if 'go' messege is typed ==> go and fetch tweets
-
-  // fetch tweets here
-
-  }
-});
-
-// Handle errors (see `errorCodes` export)
-slackEvents.on('error', console.error);
+slackController.set(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
