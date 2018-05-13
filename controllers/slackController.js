@@ -1,4 +1,5 @@
 var slackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+var twitterController = require('./twitterController');
 
 var slackEvents = slackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
 
@@ -11,8 +12,8 @@ module.exports.set = function(app) {
     slackEvents.on('message', (message)=> {
         if(message.text.indexOf('go') != -1){ // if 'go' messege is typed ==> go and fetch tweets
 
-            // fetch tweets here
-
+            // fetch tweets here            
+            twitterController.set();
         }
     });
 
