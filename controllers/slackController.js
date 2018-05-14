@@ -17,6 +17,6 @@ module.exports.listen = function(app) {
         }
     });
     
-    // Handle errors (see `errorCodes` export)
+    // Handle errors
     slackEvents.on('error', console.error);
 }

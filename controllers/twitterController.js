@@ -39,3 +39,11 @@ store = function (tweets) {
             });
     }
 }
+
+// query tweets
+
+module.exports.query = function() {
+
+    tweets = Tweet.find();
+
+}
