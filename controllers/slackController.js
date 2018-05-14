@@ -3,7 +3,7 @@ var twitterController = require('./twitterController');
 
 var slackEvents = slackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
 
-module.exports.set = function(app) {
+module.exports.listen = function(app) {
 
     // make the event handler route
     app.use('/slack/events', slackEvents.expressMiddleware());
@@ -13,10 +13,10 @@ module.exports.set = function(app) {
         if(message.text.indexOf('go') != -1){ // if 'go' messege is typed ==> go and fetch tweets
 
             // fetch tweets here            
-            twitterController.set();
+            twitterController.fetch();
         }
     });
-
+    
     // Handle errors (see `errorCodes` export)
     slackEvents.on('error', console.error);
 }
