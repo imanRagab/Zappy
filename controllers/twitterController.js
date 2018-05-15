@@ -14,36 +14,37 @@ var twitterClient = new Twitter({
 
 module.exports.fetch = function() {
 
-    var params = {screen_name: 'fictionfone1'};
-    twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
-        if (!error) {
-            // store tweets 
-            store(tweets);
-        }
-    });
+    Tweet.findOne({}, {}, { sort: { 'twitter_id' : -1 } }, function(err, tweet) { // get very last stored tweet
+
+        var last_tweet_id = tweet.twitter_id;
+
+        var params = {
+            screen_name: 'fictionfone1',
+            since_id: last_tweet_id, 
+            trim_user: true
+        };
+
+        twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+            if (!error) {
+                // store tweets 
+                store(tweets);
+            }
+        });
+
+    });    
 } 
 
 // store tweets function
 
 store = function (tweets) { 
 
-    for(var i = 0; i < tweets.length; i++)
+    for(var i = 0; i < tweets.length - 1; i++)
     {
-        var tweet = Tweet.create({            
+        var tweet = new Tweet({            
             twitter_id: tweets[i].id,
             tweet_text: tweets[i].text
-        },function(error){
-                if(error){
-                    console.log(error)
-                }
-            });
+        });
+        tweet.save();
+        console.log(tweet)
     }
-}
-
-// query tweets
-
-module.exports.query = function() {
-
-    tweets = Tweet.find();
-
 }

@@ -1,9 +1,7 @@
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema;
+var mongoose = require('../config/db')
+Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost/zappy');
-
-
+// define db schema 
 var tweetSchema = new Schema({
 
     twitter_id: {
