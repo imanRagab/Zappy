@@ -1,13 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var Tweet = require('../../models/tweet');
+var tweetsController = require('../../controllers/tweetsController')
 
 /* GET tweets listing. */
-router.get('/', function(req, res, next) {
-
-  Tweet.find({}, (err, tweets) => {
-    res.end(JSON.stringify(tweets));
-  });  
-});
+router.get('/', tweetsController.list_tweets);
 
 module.exports = router;

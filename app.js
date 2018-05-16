@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var tweetsRouter = require('./routes/api/tweets');
-
 var slackController = require('./controllers/slackController');
 
 var app = express();
@@ -50,6 +49,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;

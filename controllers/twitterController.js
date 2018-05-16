@@ -24,13 +24,12 @@ module.exports.fetch = function() {
             trim_user: true
         };
 
-        twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) {
+        twitterClient.get('statuses/user_timeline', params, function(error, tweets, response) { // fetch latest tweets
             if (!error) {
                 // store tweets 
                 store(tweets);
             }
         });
-
     });    
 } 
 
@@ -38,13 +37,14 @@ module.exports.fetch = function() {
 
 store = function (tweets) { 
 
-    for(var i = 0; i < tweets.length - 1; i++)
+    for(var i = 0; i < tweets.length; i++)
     {
         var tweet = new Tweet({            
             twitter_id: tweets[i].id,
             tweet_text: tweets[i].text
         });
-        tweet.save();
-        console.log(tweet)
+        tweet.save(function (error) { 
+            console.log(error);
+         });
     }
 }

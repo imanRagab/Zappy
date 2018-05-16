@@ -9,7 +9,7 @@ module.exports.listen = function(app) {
     app.use('/slack/events', slackEvents.expressMiddleware());
 
     // attach listener to message event
-    slackEvents.on('message', (message)=> {
+    slackEvents.on('message', (message) => {
         if(message.text.indexOf('go') != -1){ // if 'go' messege is typed ==> go and fetch tweets
 
             // fetch tweets here            
