@@ -1,5 +1,5 @@
-var mongoose = require('../config/db')
-Schema = mongoose.Schema;
+var mongoose = require('../config/db');
+var Schema = mongoose.Schema;
 
 // define db schema 
 var tweetSchema = new Schema({

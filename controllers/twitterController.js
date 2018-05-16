@@ -9,7 +9,6 @@ var twitterClient = new Twitter({
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-
 // fetch tweets function
 
 module.exports.fetch = function() {
@@ -44,7 +43,12 @@ store = function (tweets) {
             tweet_text: tweets[i].text
         });
         tweet.save(function (error) { 
-            console.log(error);
+            if(error){
+                if (error.name === 'MongoError' && error.code === 11000) {
+                    // Duplicate tweet
+                    console.log('Duplicate tweet!');
+                }
+            }
          });
     }
 }
